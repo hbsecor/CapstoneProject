@@ -1,3 +1,5 @@
+This file is mostly from the actual data when I downloaded it so other README will have my notes
+
 #Genotype files in binary Plink format
 #Autosomes
 #data885autosome_maf0.01_remove_hwe_excess_shortIDs.bed
