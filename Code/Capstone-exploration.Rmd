@@ -1,0 +1,71 @@
+---
+title: "Capstone-exploration"
+author: "HarrySecor"
+date: "11/8/2022"
+output: html_document
+---
+
+```{r}
+rm(list = ls())
+library(tidyverse)
+library(here)
+library(ggfortify)
+```
+
+bring in data
+
+```{r}
+DOG <- read.csv(here("Data", "Secor-Cap-Dap-data.csv"))
+```
+
+check age for outlieres. it is the only one that is likely to as all others are between the range of 0 and 5.
+
+```{r}
+ggplot(DOG, aes(x = Age)) + geom_histogram()
+```
+
+not worth looking at all the data with histograms so take the ones most likely to have outliers from summary. likely in this means that from Q3 to max there is a jump of  greater than 2 or from min to Q1
+
+```{r}
+summary(DOG)
+```
+
+
+```{r}
+ggplot(DOG, aes(x = Bark)) + geom_histogram()
+```
+
+```{r}
+ggplot(DOG, aes(x = NoiseF)) + geom_histogram()
+```
+
+
+may be an outlier for NO_Agg
+```{r}
+ggplot(DOG, aes(x = NO_Agg)) + geom_histogram()
+```
+
+```{r}
+ggplot(DOG, aes(x = Train)) + geom_histogram()
+```
+
+possibly one or two ouliers as most data is around one. 3 data points look to beyond 3
+```{r}
+ggplot(DOG, aes(x = HS_StrngDirFear)) + geom_histogram()
+```
+
+likely no outlirests though a lot less data near the top of the spectrum
+```{r}
+ggplot(DOG, aes(x = HS_DogDirAggression)) + geom_histogram()
+```
+
+similar to agression but might actulay have an outlier or two at the top
+```{r}
+ggplot(DOG, aes(x = HS_DogDirFear)) + geom_histogram()
+```
+
+likely at least one outlier at the very top.
+```{r}
+ggplot(DOG, aes(x = HS_Pain)) + geom_histogram()
+```
+
