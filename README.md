@@ -2,6 +2,11 @@
 
 im getting to this a bit late so ill go back and revamp this later
 
+do I need to do acctual citations?
+
+citation data: https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.171q5
+citation article: https://academic.oup.com/genetics/article/206/2/1101/6064288?login=true
+
 #Gender (0=male, 2=female) + Neuter status (0=entire, 1=neutered)
 
 #Age (days)
@@ -12,7 +17,7 @@ im getting to this a bit late so ill go back and revamp this later
 
 coat color (0-2) not specified 
 
-all below between 1 and 5
+all below between 1 and 5:
 agitatited 
 attention seeking 
 Bark 
