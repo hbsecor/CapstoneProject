@@ -18,11 +18,21 @@ bring in data
 DOG <- read.csv(here("Data", "Secor-Cap-Dap-data.csv"))
 ```
 
+## Nature vs Nuture of dogs 
+# how does a dogs genetics affect it and how does human training effect them
+
 check age for outlieres. it is the only one that is likely to as all others are between the range of 0 and 5.
 
 ```{r}
 ggplot(DOG, aes(x = Age)) + geom_histogram()
 ```
+
+looking at the journal article that the data came from to see what each color is represented by what number and it came out to be 0 = black, 1 = yellow, and 2 = chocolate. 
+
+```{r}
+ggplot(DOG, aes(x = Coat_colour)) + geom_histogram()
+```
+
 
 not worth looking at all the data with histograms so take the ones most likely to have outliers from summary. likely in this means that from Q3 to max there is a jump of  greater than 2 or from min to Q1
 
@@ -38,7 +48,6 @@ ggplot(DOG, aes(x = Bark)) + geom_histogram()
 ```{r}
 ggplot(DOG, aes(x = NoiseF)) + geom_histogram()
 ```
-
 
 may be an outlier for NO_Agg
 ```{r}
@@ -59,7 +68,7 @@ likely no outlirests though a lot less data near the top of the spectrum
 ggplot(DOG, aes(x = HS_DogDirAggression)) + geom_histogram()
 ```
 
-similar to agression but might actulay have an outlier or two at the top
+similar to aggression but might actuality have an outlier or two at the top
 ```{r}
 ggplot(DOG, aes(x = HS_DogDirFear)) + geom_histogram()
 ```
@@ -68,4 +77,14 @@ likely at least one outlier at the very top.
 ```{r}
 ggplot(DOG, aes(x = HS_Pain)) + geom_histogram()
 ```
+
+#is there a correlation between a dog's job and if it barks
+
+```{r}
+WM2chiBark <- xtabs(WM2 ~ Bark, data = DOG)
+chisq.test(WM2chiBark)
+summary(WM2chiBark)
+```
+
+
 

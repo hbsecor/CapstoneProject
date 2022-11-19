@@ -1,0 +1,119 @@
+---
+title: "Capstone-analysis"
+author: "HarrySecor"
+date: "11/19/2022"
+output: html_document
+---
+
+# Natue vs Nurture
+the data is from a study in whether a dogs genetics has an impact on its behavior or if it is more based on the actions of the dogs owners. For the tested behavioral traits the more important factor is how the dogs were nurtured.
+
+
+```{r}
+rm(list = ls())
+library(tidyverse)
+library(here)
+library(ggfortify)
+```
+
+```{r}
+DOG <- read.csv(here("Data", "Secor-Cap-Dap-data.csv"))
+```
+
+I used summary to find a characteristic that seems to be relatively evenly distributed with min = 1, mean = 2.5, and max = 5 roughly
+```{r}
+summary(DOG)
+```
+
+# job vs excitement
+the first two categories I want to look at are job (WM2) and excitement (Excite) to see whether training effects excitement level. WM2 is categorical with 0 = Gundog (n = 840), 1 = Pet (n = 817), and 2 = Showdog (n = 140).
+
+```{r}
+ggplot(DOG, aes(x = Excite)) + geom_histogram()
+```
+
+the histogram looks to be a normal distribution
+
+```{r}
+ggplot(data = na.omit(DOG), aes(x = Excite)) + geom_histogram() + facet_wrap(~WM2)
+```
+
+from just looking at the histograms it seems that pets are the most excitable.
+
+```{r}
+ggplot(data = na.omit(DOG), aes(group = WM2, y = Excite, x = WM2)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+```{r}
+jvelm <- lm(Excite ~ WM2, data = na.omit(DOG))
+autoplot(jvelm)
+```
+
+both normal Q-Q and residial fitted look good with both closely following their respective dotted lines.
+
+```{r}
+chijve <- xtabs(Excite ~ WM2, data = na.omit(DOG))
+
+chisq.test(chijve)
+summary(chijve) # starts at Number
+```
+
+with a p-value of 2.2e^-16 we accept the we fail to reject the hypnosis. 
+
+## note
+the only full genetic category is coat color. it may be hard to see how genetics effect categories
+
+#coat color vs excitement
+to test a genetic variable, how does coat color effect excitement level? 0 = black (n = 1144), 1 = yellow (n = 521), and 2 = chocolate (n = 310).
+
+```{r}
+ggplot(data = na.omit(DOG), aes(group = Coat_colour, y = Excite, x = Coat_colour)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+```{r}
+ccvelm <- lm(Excite ~ Coat_colour, data = na.omit(DOG))
+autoplot(ccvelm)
+```
+normal Q-Q looks good and stays with the dotted line mostly. 
+residual vs fitted also looks fine with a slight slump in the middle though it stays with the line
+
+```{r}
+chiccve <- xtabs(Excite ~ WM2, data = na.omit(DOG))
+
+chisq.test(chiccve)
+summary(chiccve) # starts at Number
+```
+
+p-value is < 0.5 (2.2e^-16) so we reject the null
+this is a little surprising as that means there is a correlation between coat color and level of excitement meaning that both genetics and nurture may have some effect on the level of excitement 
+
+# excitment vs age
+next I want to compare age to the excitement level to see what other factors could. likey as a dog ages it should get less excited.
+
+```{r}
+ggplot(DOG, aes(x = Excite)) + geom_histogram()
+```
+
+```{r}
+ggplot(DOG, aes(y = Excite, x = Age, color = WM2)) + geom_point() + xlab("Age (Days)")
+```
+
+there does not seem to be a clear correlation between a dogs age and how excitable they are. the colors are the dogs jobs with black = gundog, grey = NA, dark blue = pets, light blue = showdog.
+
+
+```{r}
+avelm <- lm(Excite ~ Age, data = DOG)
+autoplot(avelm)
+```
+
+Normal Q-Q looks very good as it is nearly perfectly on the dotted line.
+the Residual vs filters close to the line as well but mostly falls below.
+
+```{r}
+anova(avelm)
+summary(avelm) # Starts at Call:
+```
+
+the p-value is > 0.5 so we fail to reject the null.
+given the above plots it closer to a significant value that was thought.
+
