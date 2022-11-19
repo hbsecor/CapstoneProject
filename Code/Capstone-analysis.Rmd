@@ -5,6 +5,8 @@ date: "11/19/2022"
 output: html_document
 ---
 
+## im still very much working on this and im a little behind. though I can take this file and replace excitement with any of the other responce veriables and the code should work for all of them.
+
 # Natue vs Nurture
 the data is from a study in whether a dogs genetics has an impact on its behavior or if it is more based on the actions of the dogs owners. For the tested behavioral traits the more important factor is how the dogs were nurtured.
 
@@ -116,4 +118,121 @@ summary(avelm) # Starts at Call:
 
 the p-value is > 0.5 so we fail to reject the null.
 given the above plots it closer to a significant value that was thought.
+
+# health vs excitement level
+does health effect dogs level of excitement? it is binary so level of heath is hard to read or type of health issue which may have some effect. It is likely that health does not effect excitement level. 0 = some health issues (n = 1697) and 1 = no heath issues (n = 278)
+
+```{r}
+ggplot(DOG, aes(group = Health, x = Health, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+
+```{r}
+hvelm <- lm(Excite ~ Health, data = na.omit(DOG))
+autoplot(hvelm)
+```
+
+both normal Q-Q and residual fitted look good with both closely following their respective dotted lines.
+
+```{r}
+chihve <- xtabs(Excite ~ Health, data = na.omit(DOG))
+
+chisq.test(chihve)
+summary(chihve) # starts at Number
+```
+p-value = 2.2e^16 < 0.5 so we reject the null so there is a correlation between health and excitement
+
+# Gender vs excitement level
+there will be no difference between genders when it coems to excitement 
+
+```{r}
+ggplot(data = na.omit(DOG), aes(group = Gender_status, y = Excite, x = Gender_status)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+
+```{r}
+gsvelm <- lm(Excite ~ Gender_status, data = na.omit(DOG))
+autoplot(gsvelm)
+```
+
+both normal Q-Q and residual fitted look good with both closely following their respective dotted lines.
+
+```{r}
+chigsve <- xtabs(Excite ~ Gender_status, data = na.omit(DOG))
+
+chisq.test(chigsve)
+summary(chigsve) # starts at Number
+```
+
+# fixed vs excitement
+
+
+this code takes the mod of the gender status and splits the category into fixed and not fixed
+```{r}
+DOG$Fixed <- DOG$Gender_status %% 2
+```
+
+
+```{r}
+ggplot(DOG, aes(group = Fixed, x = Fixed, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+
+```{r}
+fvelm <- lm(Excite ~ Fixed, data = na.omit(DOG))
+autoplot(fvelm)
+```
+
+both normal Q-Q and residual fitted look good with both closely following their respective dotted lines.
+
+```{r}
+chifve <- xtabs(Excite ~ Health, data = na.omit(DOG))
+
+chisq.test(chifve)
+summary(chifve) # starts at Number
+```
+
+# inside/outside dog vs excitement
+
+```{r}
+ggplot(DOG, aes(group = InOut, x = InOut, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+
+```{r}
+iovelm <- lm(Excite ~ InOut, data = na.omit(DOG))
+autoplot(iovelm)
+```
+
+both normal Q-Q and residual fitted look good with both closely following their respective dotted lines.
+
+```{r}
+chiiove <- xtabs(Excite ~ InOut, data = na.omit(DOG))
+
+chisq.test(chiiove)
+summary(chiiove) # starts at Number
+```
+
+
+# time exercizing vs excitemnt
+
+```{r}
+ggplot(DOG, aes(group = TimeEx, x = TimeEx, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+
+```{r}
+tevelm <- lm(Excite ~ TimeEx, data = na.omit(DOG))
+autoplot(tevelm)
+```
+
+both normal Q-Q and residual fitted look good with both closely following their respective dotted lines.
+
+```{r}
+chiteve <- xtabs(Excite ~ TimeEx, data = na.omit(DOG))
+
+chisq.test(chiteve)
+summary(chiteve) # starts at Number
+```
+
 
