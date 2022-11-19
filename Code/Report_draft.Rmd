@@ -1,0 +1,24 @@
+---
+title: "report_draft"
+author: "HarrySecor"
+date: "11/19/2022"
+output: html_document
+---
+
+# Introduction
+
+how do humans currently effect the behavior of dogs compared to how much of how they act is nature? humans have had domesticated dogs for thousands of years so how much have do humans still need to teach to dogs? // go through papers here. In the data there is only data on Labrador retrievers. Humans activity, decisions, and training have a significant impact on the behavior of dogs.
+
+# Analysis
+
+// go through Capstone_analysis and see the data and report most important data here and ask to see what would be the best way of putting information here.
+
+# Summary
+
+// check Capstone_analysis because there is some in there but need to do more.
+
+# Challenges
+
+I picked a very large data set which was honestly a bit to much for me to process so I did not use all of it. Also most of the data comes from a survey so all of the response variable are between 1.00 and 5.00 so it was continuous sort of but not truly
+
+

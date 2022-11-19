@@ -5,7 +5,12 @@ im getting to this a bit late so ill go back and revamp this later
 do I need to do actual citations?
 
 citation data: https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.171q5
+better citation: Ilska, Joanna et al. (2018), Data from: Genetic characterization of dog personality traits, Dryad, Dataset, https://doi.org/10.5061/dryad.171q5
+
+
 citation article: https://academic.oup.com/genetics/article/206/2/1101/6064288?login=true
+better citation: Joanna Ilska, Marie J Haskell, Sarah C Blott, Enrique Sánchez-Molano, Zita Polgar, Sarah E Lofgren, Dylan N Clements, Pamela Wiener, Genetic Characterization of Dog Personality Traits, Genetics, Volume 206, Issue 2, 1 June 2017, Pages 1101–1111, https://doi.org/10.1534/genetics.116.192674
+
 citation for quiz: https://www.sciencedirect.com/science/article/pii/S0168159114001099
 
 #Gender (0=male, 2=female) + Neuter status (0=entire, 1=neutered)
