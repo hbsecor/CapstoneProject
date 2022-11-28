@@ -9,6 +9,10 @@ output: html_document
 
 how do humans currently effect the behavior of dogs compared to how much of how they act is nature? humans have had domesticated dogs for thousands of years so how much have do humans still need to teach to dogs? // go through papers here. In the data there is only data on Labrador retrievers. Humans activity, decisions, and training have a significant impact on the behavior of dogs.
 
+You have such a focus on nature vs. nurture, but as you noted, you only have one genetic trait - coat color. So maybe focus a bit less on that aspect.
+
+Also present your general hypotheses and their justifications in this section.
+
 # Analysis
 
 // go through Capstone_analysis and see the data and report most important data here and ask to see what would be the best way of putting information here.
