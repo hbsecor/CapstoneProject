@@ -4,6 +4,10 @@ im getting to this a bit late so ill go back and revamp this later
 
 do I need to do actual citations?
 
+Yes, please, and make it clear what the citations refer to more clearly
+
+Also, this metadata stuff belongs in the data folder.
+
 citation data: https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.171q5
 better citation: Ilska, Joanna et al. (2018), Data from: Genetic characterization of dog personality traits, Dryad, Dataset, https://doi.org/10.5061/dryad.171q5
 
