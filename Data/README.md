@@ -17,7 +17,8 @@ better citation: Joanna Ilska, Marie J Haskell, Sarah C Blott, Enrique Sánchez-
 
 citation for quiz: https://www.sciencedirect.com/science/article/pii/S0168159114001099
 
-#Gender (0=male, 2=female) + Neuter status (0=entire, 1=neutered)
+#Gender (0=male, 2=female) + Neuter status (0=entire, 1=fixed)
+0 = entire male, 1 = fixed male, 2 = entire female, 3 = fixed female
 
 #Age (days)
 #Role/WM2 (0=Gundog or 1=Pet, 2=Showdog)
