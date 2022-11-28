@@ -1,5 +1,7 @@
 This file is mostly from the actual data when I downloaded it so other README will have my notes
 
+Ok - but most of this doesn't make sense. You need a nice clean translation of your dataset. And this also belongs in the data folder.
+
 #Genotype files in binary Plink format
 #Autosomes
 #data885autosome_maf0.01_remove_hwe_excess_shortIDs.bed

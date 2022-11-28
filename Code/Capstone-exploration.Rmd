@@ -21,20 +21,30 @@ DOG <- read.csv(here("Data", "Secor-Cap-Dap-data.csv"))
 ## Nature vs Nuture of dogs 
 # how does a dogs genetics affect it and how does human training effect them
 
+This question needs refinement.
+
 check age for outlieres. it is the only one that is likely to as all others are between the range of 0 and 5.
 
 ```{r}
 ggplot(DOG, aes(x = Age)) + geom_histogram()
 ```
+What are the units for age? Days? That seems strange? How were age data collected? This information should be in the metadata.
+
 
 looking at the journal article that the data came from to see what each color is represented by what number and it came out to be 0 = black, 1 = yellow, and 2 = chocolate. 
+
+Are all of these data just for purebred labradors? This is the kind of thing that should be in  your metadata.
 
 ```{r}
 ggplot(DOG, aes(x = Coat_colour)) + geom_histogram()
 ```
 
 
-not worth looking at all the data with histograms so take the ones most likely to have outliers from summary. likely in this means that from Q3 to max there is a jump of  greater than 2 or from min to Q1
+not worth looking at all the data with histograms so take the ones most likely to have outliers from summary. 
+
+Why is it not worth looking at?
+
+likely in this means that from Q3 to max there is a jump of  greater than 2 or from min to Q1
 
 ```{r}
 summary(DOG)
@@ -85,6 +95,12 @@ WM2chiBark <- xtabs(WM2 ~ Bark, data = DOG)
 chisq.test(WM2chiBark)
 summary(WM2chiBark)
 ```
+What is WM2?
 
+It is really hard for me to help you without having a better sense of what all these variables mean.
+
+Many of these are factor, rather than integer variables. It might make it more clear to you if you changed the code (0, 1, 2) to the meaning (Black, Yellow, Chocolate, for example) and change column names to something that makes sense to you. You will want them as factor for analysis.
+
+I don't get the sense, due to the sparseness of what you've written about your various plots, etc, that  you really looked to understand the data beyond looking for outliers. How about some boxplots to get a sense of things?  Which, if any, of the data are continuous vs. factor vs. integer? 
 
 

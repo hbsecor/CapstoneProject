@@ -10,6 +10,8 @@ output: html_document
 # Natue vs Nurture
 the data is from a study in whether a dogs genetics has an impact on its behavior or if it is more based on the actions of the dogs owners. For the tested behavioral traits the more important factor is how the dogs were nurtured.
 
+It is not clear that there are any genetic data in the data set.
+
 
 ```{r}
 rm(list = ls())
@@ -28,7 +30,9 @@ summary(DOG)
 ```
 
 # job vs excitement
-the first two categories I want to look at are job (WM2) and excitement (Excite) to see whether training effects excitement level. WM2 is categorical with 0 = Gundog (n = 840), 1 = Pet (n = 817), and 2 = Showdog (n = 140).
+the first two categories I want to look at are job (WM2) and excitement (Excite) to see whether training effects excitement level. WM2 is categorical with 0 = Gundog (n = 840), 1 = Pet (n = 817), and 2 = Showdog (n = 140). 
+
+What is Excite? How is it measured? Looks to be on a scale, kind of like Likert data? Is that true?
 
 ```{r}
 ggplot(DOG, aes(x = Excite)) + geom_histogram()
@@ -42,9 +46,16 @@ ggplot(data = na.omit(DOG), aes(x = Excite)) + geom_histogram() + facet_wrap(~WM
 
 from just looking at the histograms it seems that pets are the most excitable.
 
+
+
 ```{r}
 ggplot(data = na.omit(DOG), aes(group = WM2, y = Excite, x = WM2)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
+WM2 should be converted to factor, since it is conveying the work the dog does as a category. You might even consider replacing the numbers with the roles (hunt, pet, show)
+
+
+Before you do the analysis, I'd like to see a statement of your hypothesis and your guesstemates of the outcome based on looking at your various plots.
+
 
 ```{r}
 jvelm <- lm(Excite ~ WM2, data = na.omit(DOG))
@@ -52,6 +63,9 @@ autoplot(jvelm)
 ```
 
 both normal Q-Q and residial fitted look good with both closely following their respective dotted lines.
+Why did you do a linear model and now a chi-square?
+
+What kind of data is your predictor? Response? 
 
 ```{r}
 chijve <- xtabs(Excite ~ WM2, data = na.omit(DOG))
@@ -62,23 +76,29 @@ summary(chijve) # starts at Number
 
 with a p-value of 2.2e^-16 we accept the we fail to reject the hypnosis. 
 
+I don't understand why you selected a chi-square after creating a lm?
+
 ## note
 the only full genetic category is coat color. it may be hard to see how genetics effect categories
 
 #coat color vs excitement
 to test a genetic variable, how does coat color effect excitement level? 0 = black (n = 1144), 1 = yellow (n = 521), and 2 = chocolate (n = 310).
 
+So coat color is a factor and should be converted to such.
+
 ```{r}
 ggplot(data = na.omit(DOG), aes(group = Coat_colour, y = Excite, x = Coat_colour)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
-
+What do you see? What might you guesstimate will be the difference you see, if any? What are the structure of your data and therefore what kind of model is appropriate? You need to write all of this down for each analysis.
 ```{r}
 ccvelm <- lm(Excite ~ Coat_colour, data = na.omit(DOG))
 autoplot(ccvelm)
 ```
 normal Q-Q looks good and stays with the dotted line mostly. 
-residual vs fitted also looks fine with a slight slump in the middle though it stays with the line
+residual vs fitted also looks fine with a slight slump in the middle though it stays with the line. 
 
+
+Again, not sure why you are doing another test when  you just ran a linear model?
 ```{r}
 chiccve <- xtabs(Excite ~ WM2, data = na.omit(DOG))
 
@@ -88,6 +108,11 @@ summary(chiccve) # starts at Number
 
 p-value is < 0.5 (2.2e^-16) so we reject the null
 this is a little surprising as that means there is a correlation between coat color and level of excitement meaning that both genetics and nurture may have some effect on the level of excitement 
+
+Yes - but you need to make coat color into a factor and run this as a one-way anova. Then use tukey test to see if the difference in excitability is between each coat color.
+
+And it is kind of a cool result!
+
 
 # excitment vs age
 next I want to compare age to the excitement level to see what other factors could. likey as a dog ages it should get less excited.
@@ -101,6 +126,8 @@ ggplot(DOG, aes(y = Excite, x = Age, color = WM2)) + geom_point() + xlab("Age (D
 ```
 
 there does not seem to be a clear correlation between a dogs age and how excitable they are. the colors are the dogs jobs with black = gundog, grey = NA, dark blue = pets, light blue = showdog.
+
+So I'm assuming you are expecting to find a NS result. What would you estimate the slope and intercept to be?
 
 
 ```{r}
@@ -119,8 +146,12 @@ summary(avelm) # Starts at Call:
 the p-value is > 0.5 so we fail to reject the null.
 given the above plots it closer to a significant value that was thought.
 
+Yes - I'm surprised as well. But if you look at residuals vs. leverages there are a few higher ages that are pulling on the data. And the R2 is tiny.
+
 # health vs excitement level
 does health effect dogs level of excitement? it is binary so level of heath is hard to read or type of health issue which may have some effect. It is likely that health does not effect excitement level. 0 = some health issues (n = 1697) and 1 = no heath issues (n = 278)
+
+You could make health into a factor with Yes or No for health issues and run a t-test.
 
 ```{r}
 ggplot(DOG, aes(group = Health, x = Health, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
@@ -134,6 +165,8 @@ autoplot(hvelm)
 
 both normal Q-Q and residual fitted look good with both closely following their respective dotted lines.
 
+this should not be a chi-square test.
+
 ```{r}
 chihve <- xtabs(Excite ~ Health, data = na.omit(DOG))
 
@@ -142,12 +175,15 @@ summary(chihve) # starts at Number
 ```
 p-value = 2.2e^16 < 0.5 so we reject the null so there is a correlation between health and excitement
 
+So let's see a nice looking plot to draw attention to the result.
+
 # Gender vs excitement level
 there will be no difference between genders when it coems to excitement 
 
 ```{r}
 ggplot(data = na.omit(DOG), aes(group = Gender_status, y = Excite, x = Gender_status)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
+Gender status should also be a factor variable. And what are the levels of the factor?
 
 
 ```{r}
@@ -156,6 +192,8 @@ autoplot(gsvelm)
 ```
 
 both normal Q-Q and residual fitted look good with both closely following their respective dotted lines.
+
+Again, not a chi-square test.
 
 ```{r}
 chigsve <- xtabs(Excite ~ Gender_status, data = na.omit(DOG))
@@ -168,6 +206,8 @@ summary(chigsve) # starts at Number
 
 
 this code takes the mod of the gender status and splits the category into fixed and not fixed
+
+Nice use of mod to extract the odd numbers!
 ```{r}
 DOG$Fixed <- DOG$Gender_status %% 2
 ```
@@ -184,7 +224,7 @@ autoplot(fvelm)
 ```
 
 both normal Q-Q and residual fitted look good with both closely following their respective dotted lines.
-
+Not a chisquare test
 ```{r}
 chifve <- xtabs(Excite ~ Health, data = na.omit(DOG))
 
@@ -235,4 +275,12 @@ chisq.test(chiteve)
 summary(chiteve) # starts at Number
 ```
 
+You have a lot of intersting questions here, but you are running the incorrect tests. chi square tests are for when you have count data (e.g. number of dogs) and your data are pseudo-continuous with normal distributions.
 
+You also have too many things to report on in a 7-minute presentation, so you need to condense for that. 
+
+However, your analysis is basically doing a whole bunch of the same tests, which isn't actually all that interesting in terms of learning.
+
+What about looking at some possible relationships between some of your continuous variables?
+
+Do dogs with more training show less aggresion, for example?
