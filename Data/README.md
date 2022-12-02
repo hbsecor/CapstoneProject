@@ -16,6 +16,7 @@ citation article: https://academic.oup.com/genetics/article/206/2/1101/6064288?l
 better citation: Joanna Ilska, Marie J Haskell, Sarah C Blott, Enrique Sánchez-Molano, Zita Polgar, Sarah E Lofgren, Dylan N Clements, Pamela Wiener, Genetic Characterization of Dog Personality Traits, Genetics, Volume 206, Issue 2, 1 June 2017, Pages 1101–1111, https://doi.org/10.1534/genetics.116.192674
 
 citation for quiz: https://www.sciencedirect.com/science/article/pii/S0168159114001099
+better citation: Lofgren S E, Wiener P, Blott S C, Sánchez Molano E, Woolliams J A et al. , 2014 Management and personality in the labrador retriever dogs. Appl. Anim. Behav. Sci. 156: 44–53, https://www.sciencedirect.com/science/article/pii/S0168159114001099
 
 #Gender (0=male, 2=female) + Neuter status (0=entire, 1=fixed)
 0 = entire male, 1 = fixed male, 2 = entire female, 3 = fixed female

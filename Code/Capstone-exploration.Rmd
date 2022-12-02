@@ -14,7 +14,7 @@ library(ggfortify)
 
 bring in data
 
-```{r}
+```{r, include=FALSE}
 DOG <- read.csv(here("Data", "Secor-Cap-Dap-data.csv"))
 ```
 

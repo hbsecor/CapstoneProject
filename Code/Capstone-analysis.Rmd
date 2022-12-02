@@ -161,6 +161,8 @@ ggplot(DOG, aes(group = Health, x = Health, y = Excite)) + geom_boxplot() + geom
 ```{r}
 hvelm <- lm(Excite ~ Health, data = na.omit(DOG))
 autoplot(hvelm)
+hveglm <- glm(Excite ~ Health, data = na.omit(DOG))
+summary(hveglm)
 ```
 
 both normal Q-Q and residual fitted look good with both closely following their respective dotted lines.
