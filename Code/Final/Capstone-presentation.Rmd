@@ -1,6 +1,6 @@
 ---
-title: "Capstone-presentation"
-author: "HarrySecor"
+title: "Cap Dap Presentation"
+author: "Harry Secor"
 date: "11/30/2022"
 output: html_document
 ---
@@ -38,7 +38,7 @@ names(DOG)[4] ="Job"
 summary(DOG)
 ```
 
-#### Hypothosis #1
+#### Hypothesis #1
 The job that a dog is trained for effects how excitable the dog is.
 
 
@@ -47,18 +47,21 @@ I chose job to look at because it seemed to be the category most effected by hum
 ```{r, echo=FALSE, message=FALSE}
 ggplot(na.omit(DOG), aes(x = Excite)) + geom_histogram()
 ```
-This figure shows the distribution of the Excite column. The distribution looks likes its normal
+
+The figure shows the distribution of the Excite column. The distribution looks likes its normal
 
 ```{r, echo=FALSE, message=FALSE}
 ggplot(data = na.omit(DOG), aes(x = Excite)) + geom_histogram() + facet_wrap(~Job)
 ```
-This figure shows the distribution of Excite over the three job types. All three distributions look normal but gundogs may have a slight skew to the right. 
+
+The figure shows the distribution of Excite over the three job types. All three distributions look normal but gundogs may have a slight skew to the right. 
 
 ```{r, echo=FALSE, message=FALSE}
 DOG$Job <- as.factor(DOG$Job)
 ggplot(data = na.omit(DOG), aes(group = Job, y = Excite, x = Job)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
-This figure shows that all three jobs seemingly have a similar level of excitability but showdogs have a lower mean than pets and gundog mean is even lower. 
+
+The figure shows that all three jobs seemingly have a similar level of excitability but showdogs have a lower mean than pets and gundog mean is even lower. 
 
 There will likely be a difference in excitability between the three jobs as there is a noticeable difference between pets and gundogs but whether or not it is significant is yet to be seen.
 
@@ -66,6 +69,7 @@ There will likely be a difference in excitability between the three jobs as ther
 jvelm <- lm(Excite ~ Job, data = na.omit(DOG))
 autoplot(jvelm)
 ```
+
 The residual fitted looks very good as the blue line matches the grey dotted line and there are few outlines. Even though it looks a little funny, job is a categorical so the values should be in parallel lines like they are. The points on the normal Q-Q look nearly identical to the grey line except at the top.
 
 ```{r, echo=FALSE}
@@ -75,7 +79,7 @@ summary(jvelm)
 There is a significant differences between all three jobs with the biggest difference between gundog and pet and with p = 2e-16. There is a closer but still statistically significant difference between pet and show dog. We fail to reject the hypothesis that a dogs job effects its excitability. Teaching dogs different jobs does seem have an impact on how they act. 
 
 
-#### Hypothosis #2
+#### Hypothesis #2
 A dogs coat color effects its level of excitability.
 
 This is a very similar test to the last one because job was a more nurture variable whereas coat color is a genetic variable.
@@ -87,13 +91,15 @@ We think that it is unlikely there is a significant differences between any of t
 ```{r, echo=FALSE, message=FALSE}
 ggplot(data = na.omit(DOG), aes(x = Excite)) + geom_histogram() + facet_wrap(~Coat_colour)
 ```
-This figure shows the ditrobution of Excitement over each coat color and they all seem to be normal.
+
+The figure shows the ditrobution of Excitement over each coat color and they all seem to be normal.
 
 ```{r, echo=FALSE, message=FALSE}
 DOG$Coat_colour <- as.factor(DOG$Coat_colour)
 ggplot(data = na.omit(DOG), aes(group = Coat_colour, y = Excite, x = Coat_colour)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
-This figure shows both black and yellow have similar levels of excitability but chocolate labs seemingly are more excitable.
+
+The figure shows both black and yellow have similar levels of excitability but chocolate labs seemingly are more excitable.
 
 from just the graphs we would expect there to possibly be difference between chocolate and the other two coat colors.
 
@@ -101,15 +107,17 @@ from just the graphs we would expect there to possibly be difference between cho
 ccvelm <- lm(Excite ~ Coat_colour, data = na.omit(DOG))
 autoplot(jvelm)
 ```
-This figure shows that residual fitted and normal Q-Q look good and have relatively few outliers.
+
+The figure shows that residual fitted and normal Q-Q look good and have relatively few outliers.
 
 ```{r, echo=FALSE}
 summary(ccvelm)
 ```
+
 Between black labs and yellow labs there is not a significant difference in level of excitability p = 0.512 but between black labs and chocolate labs there is a significant differences in level of excitability. We have to fail to reject the hypothesis that coat color does effect excitability in labs. We were not expecting that coat color could change how excitable dogs can be. It would likely be good to check the results of this because chocolate labs were the smallest group to see if there was another variable influencing the data.
 
 
-#### Hypothosis #3
+#### Hypothesis #3
 The health of a dog can effect the excitability in Labrador retrievers.
 
 We wanted to see if there was a third variable that could effect how excitable a dog is and health of a do to see if illness or injury made the dog less excitable. 0 = some health issues (n = 1697) and 1 = no heath issues (n = 278)
@@ -120,9 +128,10 @@ We think that there will be no significant change in excitement level mainly bec
 DOG$Health <- as.factor(DOG$Health)
 ggplot(DOG, aes(group = Health, x = Health, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
+
 This graph is a bar and whisker plot comparing dogs with some health issues and dogs with out health issues. The healthy dogs seem to be slightly more excitable as both the mean and Q1 are higher than dogs with health issues.
 
-```{r}
+```{r, echo=FALSE}
 t.test(Excite ~ Health, data = DOG)
 ```
 
