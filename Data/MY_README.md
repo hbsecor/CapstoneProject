@@ -46,7 +46,7 @@ SepAnx (Separation Anxiety)
 Train (trainability)
 UnBeh (Unusual Behavior)
 
-*SetB:
+*SetB: (I just ignored this data)
 HS_StrngDirAgg 
 HS_OwnDirAgg
 HS_StrngDirFear
