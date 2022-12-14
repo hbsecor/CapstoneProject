@@ -1,0 +1,168 @@
+---
+title: "Capstone analysis Fetch"
+author: "HarrySecor"
+date: "11/19/2022"
+output: html_document
+---
+
+```{r}
+rm(list = ls())
+library(tidyverse)
+library(here)
+library(ggfortify)
+```
+
+```{r}
+DOG <- read.csv(here("Data", "Secor-Cap-Dap-data.csv"))
+```
+
+find male vs female by Gender_status %% 2
+need to do this for later before Gender_status becomes a factored value
+
+```{r}
+DOG$Fixed <- DOG$Gender_status %% 2
+```
+
+I used summary to find a characteristic that seems to be relatively evenly distributed with min = 1, mean = 2.5, and max = 5 roughly
+```{r}
+summary(DOG)
+```
+
+histogram where x = Fetch
+
+```{r}
+ggplot(DOG, aes(x = Fetch)) + geom_histogram()
+```
+
+histograms where x = Fetch and facet_wrap job
+
+```{r}
+ggplot(data = na.omit(DOG), aes(x = Fetch)) + geom_histogram() + facet_wrap(~WM2)
+```
+
+box plot of x = WM2 and y = Fetch
+
+```{r}
+DOG$WM2 <- as.factor(DOG$WM2)
+ggplot(data = na.omit(DOG), aes(y = Fetch, x = WM2)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+autoplot and summary of linear model with y = Fetch
+
+```{r}
+jvelm <- lm(Fetch ~ WM2, data = na.omit(DOG))
+autoplot(jvelm)
+summary(jvelm)
+```
+
+
+box plot of x = Coat_colour and y = Fetch
+
+```{r}
+DOG$Coat_colour <- as.factor(DOG$Coat_colour)
+ggplot(data = na.omit(DOG), aes(y = Fetch, x = Coat_colour)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+autoplot and summary of linear model with x = Coat_colour and y = Fetch
+
+```{r}
+ccvelm <- lm(Fetch ~ Coat_colour, data = na.omit(DOG))
+autoplot(ccvelm)
+summary(ccvelm)
+```
+
+
+dot plot of x = Age and y = Fetch
+
+```{r}
+ggplot(DOG, aes(y = Fetch, x = Age)) + geom_point() + xlab("Age (Days)")
+```
+
+autoplot of linear model with x = Age and y = Fetch
+
+```{r}
+avelm <- lm(Fetch ~ Age, data = DOG)
+autoplot(avelm)
+```
+
+Anova test and summary of linear model with x = Age and y = Fetch
+
+```{r}
+anova(avelm)
+summary(avelm) # Starts at Call:
+```
+
+box plot of x = Health and y = Fetch
+
+```{r}
+DOG$Health <- as.factor(DOG$Health)
+ggplot(DOG, aes(x = Health, y = Fetch)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+t.test with x = Health and y = Fetch
+
+```{r}
+t.test(Fetch ~ Health, data = DOG)
+```
+
+box plot of x = Gender_status and y = Fetch
+
+```{r}
+DOG$Gender_status <- as.factor(DOG$Gender_status)
+ggplot(data = na.omit(DOG), aes(y = Fetch, x = Gender_status)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+autoplot of linear model with x = Gender_status and y = Fetch
+
+```{r}
+gsvelm <- lm(Fetch ~ Gender_status, data = na.omit(DOG))
+autoplot(gsvelm)
+summary(gsvelm)
+```
+
+
+box plot of x = Fixed and y = Fetch
+
+```{r}
+DOG$Fixed <- as.factor(DOG$Fixed)
+ggplot(DOG, aes(x = Fixed, y = Fetch)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+autoplot of linear model with x = Fixed and y = Fetch
+
+```{r}
+fvelm <- lm(Fetch ~ Fixed, data = na.omit(DOG))
+autoplot(fvelm)
+summary(fvelm)
+```
+
+box plot of x = InOut and y = Fetch
+
+```{r}
+DOG$InOut <- as.factor(DOG$InOut)
+ggplot(data = na.omit(DOG), aes(x = InOut, y = Fetch)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+autoplot of linear model with x = Fixed and y = Fetch
+
+```{r}
+iovelm <- lm(Fetch ~ InOut, data = na.omit(DOG))
+autoplot(iovelm)
+summary(iovelm)
+```
+
+box plot of x = TimeEx and y = Fetch
+
+```{r}
+DOG$TimeEx <- as.factor(DOG$TimeEx)
+ggplot(data = na.omit(DOG), aes(x = TimeEx, y = Fetch)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+
+```{r}
+tevelm <- lm(Fetch ~ TimeEx, data = na.omit(DOG))
+autoplot(tevelm)
+summary(tevelm)
+```
+
+
