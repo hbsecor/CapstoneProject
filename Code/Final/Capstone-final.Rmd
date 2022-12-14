@@ -171,15 +171,20 @@ summary(gsvelm)
 
 the autoplot looks good though there is a slight downward turn in both residual vs fitted and residual leverage for one column of dots which is likely fixed males because there are only  59 entries.
 
-we reject the hypothesis as there is no significant difference between any of the values. 
+we reject the hypothesis as there is no significant difference between any of the values. with the closes to a significant value being p = 0.0617. The R-squared value is quite small at 0.003415.
 
+# Fixed vs Excitability
+
+has the dog been Fixed. did the math near the top of the file to separate out the fixed and non-fixed dogs from Gender_status
 
 box plot of x = Fixed and y = Excite
 
 ```{r}
 DOG$Fixed <- as.factor(DOG$Fixed)
-ggplot(DOG, aes(x = Fixed, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+ggplot(data = na.omit(DOG), aes(x = Fixed, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
+
+there does not seem to be a difference between fixed and non-fixed dogs when it comes to their excitability. Whether a dog is fixed or not will effect there excitability.
 
 t.test with x = Fixed and y = Excite
 
@@ -187,12 +192,21 @@ t.test with x = Fixed and y = Excite
 t.test(Excite ~ Fixed, data = DOG)
 ```
 
+we reject the hypnosis that whether a dog is fixed or not effects its level of excitability with a p-value = 0.4494. it is very far from being significant.
+
+# InOut  vs Excitability
+
+does where the dog live effect the level of excitability
+most of the dogs were indoor (n = 1578), indoor/outdoor (n = 170), outdoor (n = 176)
+
 box plot of x = InOut and y = Excite
 
 ```{r}
 DOG$InOut <- as.factor(DOG$InOut)
 ggplot(data = na.omit(DOG), aes(x = InOut, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
+
+there does not seem to be a major difference, maybe indoor dogs are slightly more excitable. where a dog is housed effects its level of excitability. 
 
 autoplot of linear model with x = Fixed and y = Excite
 
@@ -202,12 +216,22 @@ autoplot(iovelm)
 summary(iovelm)
 ```
 
+the autoplot seems fine with seemingly little issues or deviations off of the grey lines.
+
+there is a significant difference between indoor dogs and indoor/outdoor dogs with a p-value = 0.000142 but there is no significant difference between indoor and outdoor dogs p-value = 00.060542. we reject the hypothesis that housing effects level of excitability due to the outdoor vs indoor comparison. Is there a difference in the job of indoor/outdoor dogs vs outdoor/are owners of gundogs more likely to leave their dogs outside? this was a very unexpected result to even have a significant value.
+
+# Time exercising vs Excitability
+
+does the amount of hours exercising effect the excitability of dogs?
+
 box plot of x = TimeEx and y = Excite
 
 ```{r}
 DOG$TimeEx <- as.factor(DOG$TimeEx)
 ggplot(data = na.omit(DOG), aes(x = TimeEx, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
+
+there seems to be a negative correlation between exercise and excitability. How much a dog exercises effects its level of excitability. 
 
 
 ```{r}
@@ -216,4 +240,7 @@ autoplot(tevelm)
 summary(tevelm)
 ```
 
+the autoplot looks very good with no real issues that can be seen or that are majorly different in terms of Normal Q-Q.
+
+there is no significant difference between 1 and 2 hours (p-value = 0.17879) but there are significant differences between 1 and 3 (p-value = 0.00169) and 1 and 4 hours (p-value = 6.49e-06). We reject the hypothesis that there is a difference between amount of time exercising and excitability due to the p-value between 1 and 2 hrs. It seems as dogs exercise they get tired out and less excitable but that can not be  confirmed with this test but is an interesting result.
 

@@ -124,7 +124,7 @@ box plot of x = Fixed and y = Excite
 
 ```{r}
 DOG$Fixed <- as.factor(DOG$Fixed)
-ggplot(DOG, aes(x = Fixed, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+ggplot(data = na.omit(DOG), aes(x = Fixed, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
 
 autoplot of linear model with x = Fixed and y = Excite

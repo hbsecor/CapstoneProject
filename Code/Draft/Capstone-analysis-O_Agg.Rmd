@@ -96,7 +96,7 @@ box plot of x = Health and y = O_Agg
 
 ```{r}
 DOG$Health <- as.factor(DOG$Health)
-ggplot(DOG, aes(x = Health, y = O_Agg)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+ggplot(data = na.omit(DOG), aes(x = Health, y = O_Agg)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
 
 t.test with x = Health and y = O_Agg
@@ -125,7 +125,7 @@ box plot of x = Fixed and y = O_Agg
 
 ```{r}
 DOG$Fixed <- as.factor(DOG$Fixed)
-ggplot(DOG, aes(x = Fixed, y = O_Agg)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+ggplot(data = na.omit(DOG), aes(x = Fixed, y = O_Agg)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
 
 autoplot of linear model with x = Fixed and y = O_Agg
