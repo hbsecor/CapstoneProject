@@ -1,0 +1,219 @@
+---
+title: "Capstone final"
+author: "HarrySecor"
+date: "11/19/2022"
+output: html_document
+---
+
+# Natue vs Nurture
+the data is from a study in whether a dogs genetics has an impact on its behavior or if it is more based on the actions of the dogs owners. For the tested behavioral traits the more important factor is how the dogs were nurtured.
+
+```{r}
+rm(list = ls())
+library(tidyverse)
+library(here)
+library(ggfortify)
+```
+
+bring in the data and name it DOG for fun
+
+```{r}
+DOG <- read.csv(here("Data", "Secor-Cap-Dap-data.csv"))
+```
+
+find male vs female by Gender_status %% 2
+need to do this for later before Gender_status becomes a factored value
+
+```{r}
+DOG$Fixed <- DOG$Gender_status %% 2
+```
+
+I used summary to look at the data and see the ranges of each of the categories but mainly paid attention to the response categories between Agitated and UnBeh
+```{r}
+summary(DOG)
+```
+
+# Job vs Excitability
+the first two categories I want to look at are job (WM2) and excitement (Excite) to see whether training effects excitement level. WM2 is categorical with 0 = Gundog (n = 840), 1 = Pet (n = 817), and 2 = Showdog (n = 140). The paper by Joanna Ilska, et al. does not say what exactly excitement is, it is just a measurement on how excitable the dog is. Excitability is on a scale of 1 to 5 based off off six questions on a quiz by Sarah E.Lofgren et al.
+
+```{r}
+ggplot(DOG, aes(x = Excite)) + geom_histogram()
+```
+
+the histogram looks to be a normal distribution
+
+histograms where x = Excite and facet_wrap job
+I did a little extra for this first one to look at separate histograms to look at the spread for each job.
+
+```{r}
+ggplot(data = na.omit(DOG), aes(x = Excite)) + geom_histogram() + facet_wrap(~WM2)
+```
+
+there might be a slight right skew for the gundogs and it is hard to tell for the showdogs but they look relatively good
+
+box plot of x = WM2 and y = Excite
+
+```{r}
+DOG$WM2 <- as.factor(DOG$WM2)
+ggplot(data = na.omit(DOG), aes(y = Excite, x = WM2)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+From the above plots pets seem to be much more excitable than either gundogs or show dogs and I think that there will be a difference between dogs that essentially live to bring happiness to their owner and dogs that have jobs. The median of pets is at about the third quartile of gundogs and show dogs are kind of in the middle of both. The job that a dog is trained for effects how excitable the dog is.
+
+autoplot and summary of linear model with y = Excite
+
+```{r}
+jvelm <- lm(Excite ~ WM2, data = na.omit(DOG))
+autoplot(jvelm)
+summary(jvelm)
+```
+The residual fitted looks very good as the blue line matches the grey dotted line and there are few outlines. Even though it looks a little funny, job is a categorical so the values should be in parallel lines like they are. The points on the normal Q-Q look nearly identical to the grey line except at the top.
+
+There is a significant differences between all three jobs with the biggest difference between gundog and pet and with p = 2e-16. There is a closer but still statistically significant difference between pet and show dog. We fail to reject the hypothesis that a dogs job effects its excitability. Teaching dogs different jobs does seem have an impact on how they act. 
+
+# Coat color vs Excitability
+
+This is a very similar test to the last one because job was a more nurture variable whereas coat color is a genetic variable.
+There are three coat colors, 0 = black (n = 1144), 1 = yellow (n = 521), and 2 = chocolate (n = 310).
+
+box plot of x = Coat_colour and y = Excite
+
+```{r}
+DOG$Coat_colour <- as.factor(DOG$Coat_colour)
+ggplot(data = na.omit(DOG), aes(y = Excite, x = Coat_colour)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+We think that it is unlikely there is a significant differences between any of the coat colors. the only possibility is that chocolates are different because there mean is about the third quartile for both black and yellow labs. A dogs coat color effects its level of excitability.
+
+autoplot and summary of linear model with x = Coat_colour and y = Excite
+
+```{r}
+ccvelm <- lm(Excite ~ Coat_colour, data = na.omit(DOG))
+autoplot(ccvelm)
+summary(ccvelm)
+```
+The residual fitted looks very good as the blue line matches the grey dotted line and there are few outlines. There might be something off with the residual fitted because two of the dot lines are very close together but that could  just mean that they are similar. The points on the normal Q-Q look nearly identical to the grey line except at the top.
+
+Between black labs and yellow labs there is not a significant difference in level of excitability p = 0.512 but between black labs and chocolate labs there is a significant differences in level of excitability. We have to fail to reject the hypothesis that coat color does effect excitability in labs. We were not expecting that coat color could change how excitable dogs can be. It would likely be good to check the results of this because chocolate labs were the smallest group to see if there was another variable influencing the data.
+
+# Age vs Excite
+
+compare age to the excitement level to see what other factors could effect Excitability as a dog ages it likely gets less excited.
+
+dot plot of x = Age and y = Excite
+
+```{r}
+ggplot(DOG, aes(y = Excite, x = Age)) + geom_point() + xlab("Age (Days)")
+```
+There is no clear pattern in the dots though after 2000 days there are only two dogs are 5 so that could be something. Seemingly most dogs are at 3 for excitability but it is hard to tell with the density off dots. Dogs get less excitable as they age.
+
+autoplot of linear model with x = Age and y = Excite
+
+```{r}
+avelm <- lm(Excite ~ Age, data = DOG)
+autoplot(avelm)
+```
+Normal Q-Q looks very good as it is nearly perfectly on the dotted line.
+the Residual vs filters close to the line as well but mostly falls below.
+the residual vs leverage plot also veering off below the grey line after about 0.002 and most dots are behind that point so there maybe some issues and outliers. There is no good way to tell if this data is not correct so I am just going to use it.
+
+Anova test and summary of linear model with x = Age and y = Excite
+
+```{r}
+anova(avelm)
+summary(avelm) # Starts at Call:
+```
+
+There is no significant difference between the age of a do and its level of excitability (p = 0.0977). We reject the hypothesis that age effects level of excitability in dogs. There are some issues with this result as the autoplot had issues with several of the plots and the R^2 is very small (R-squared = 0.001399). 
+
+# Health vs Excitability
+
+Is there was another variable that could effect how excitable a dog is like health of a do to see if illness or injury made the dog less excitable. 0 = some health issues (n = 1697) and 1 = no heath issues (n = 278)
+
+box plot of x = Health and y = Excite
+
+```{r}
+DOG$Health <- as.factor(DOG$Health)
+ggplot(DOG, aes(x = Health, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+There will be no significant change in excitement level mainly because level of injury/illness is not specified so it could be extreme or nothing that impacts the dogs life. The dot plot does not really show much difference with healthy dogs having a slightly higher mean and first quartile. The health of a dog can effect the excitability in Labrador retrievers.
+
+t.test with x = Health and y = Excite
+
+```{r}
+t.test(Excite ~ Health, data = DOG)
+```
+
+There is no significant difference between some heath issues and no health issues when it comes to the level of excitement of Labrador retrievers p = 0.2265. We reject the hypothesis. This is no real surprise as health problems vs no health problems is rather vague and because this comes from a survey it is hard to compare scale of injury.
+
+# Gender status vs Excitability
+
+these last few are just for fun and to look at all the predictor variables so I wont go in deep.
+0 (n = 451), 1 (n  = 59), 2 (n = 1028), 3 (n = 426) 
+
+box plot of x = Gender_status and y = Excite
+
+```{r}
+DOG$Gender_status <- as.factor(DOG$Gender_status)
+ggplot(data = na.omit(DOG), aes(y = Excite, x = Gender_status)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+there does not seem to be any major differences between gender status with most means around 2.6 with the exception of fixed females where its closer to 2.8 but it has a similar IQR. There will be a difference in excitability in dogs between gender statuses.
+
+autoplot of linear model with x = Gender_status and y = Excite
+
+```{r}
+gsvelm <- lm(Excite ~ Gender_status, data = na.omit(DOG))
+autoplot(gsvelm)
+summary(gsvelm)
+```
+
+the autoplot looks good though there is a slight downward turn in both residual vs fitted and residual leverage for one column of dots which is likely fixed males because there are only  59 entries.
+
+we reject the hypothesis as there is no significant difference between any of the values. 
+
+
+box plot of x = Fixed and y = Excite
+
+```{r}
+DOG$Fixed <- as.factor(DOG$Fixed)
+ggplot(DOG, aes(x = Fixed, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+t.test with x = Fixed and y = Excite
+
+```{r}
+t.test(Excite ~ Fixed, data = DOG)
+```
+
+box plot of x = InOut and y = Excite
+
+```{r}
+DOG$InOut <- as.factor(DOG$InOut)
+ggplot(data = na.omit(DOG), aes(x = InOut, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+autoplot of linear model with x = Fixed and y = Excite
+
+```{r}
+iovelm <- lm(Excite ~ InOut, data = na.omit(DOG))
+autoplot(iovelm)
+summary(iovelm)
+```
+
+box plot of x = TimeEx and y = Excite
+
+```{r}
+DOG$TimeEx <- as.factor(DOG$TimeEx)
+ggplot(data = na.omit(DOG), aes(x = TimeEx, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
+```
+
+
+```{r}
+tevelm <- lm(Excite ~ TimeEx, data = na.omit(DOG))
+autoplot(tevelm)
+summary(tevelm)
+```
+
+

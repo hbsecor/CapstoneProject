@@ -1,11 +1,14 @@
 # CapstoneProject
 
+note: the data analysis is only in Capstone-analysis-initial and the rest just have code that has not been analysed because it has been copied and pasted but with the right column replaced and the code makes more sense. There is one issue where I forgot to change Fixed to a t.test.
+
 data link: https://datadryad.org/stash/dataset/doi:10.5061%2Fdryad.171q5
 data citation: Ilska, Joanna et al. (2018), Data from: Genetic characterization of dog personality traits, Dryad, Dataset, https://doi.org/10.5061/dryad.171q5
 
 
 article link: https://academic.oup.com/genetics/article/206/2/1101/6064288?login=true
 article citation: Joanna Ilska, Marie J Haskell, Sarah C Blott, Enrique Sánchez-Molano, Zita Polgar, Sarah E Lofgren, Dylan N Clements, Pamela Wiener, Genetic Characterization of Dog Personality Traits, Genetics, Volume 206, Issue 2, 1 June 2017, Pages 1101–1111, https://doi.org/10.1534/genetics.116.192674
+
 
 article quiz link: https://www.sciencedirect.com/science/article/pii/S0168159114001099
 article quiz citation: Lofgren S E, Wiener P, Blott S C, Sánchez Molano E, Woolliams J A et al. , 2014 Management and personality in the labrador retriever dogs. Appl. Anim. Behav. Sci. 156: 44–53, https://www.sciencedirect.com/science/article/pii/S0168159114001099

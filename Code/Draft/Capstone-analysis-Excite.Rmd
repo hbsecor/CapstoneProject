@@ -23,7 +23,6 @@ need to do this for later before Gender_status becomes a factored value
 DOG$Fixed <- DOG$Gender_status %% 2
 ```
 
-I used summary to find a characteristic that seems to be relatively evenly distributed with min = 1, mean = 2.5, and max = 5 roughly
 ```{r}
 summary(DOG)
 ```
