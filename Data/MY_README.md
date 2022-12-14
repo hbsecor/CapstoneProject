@@ -35,7 +35,7 @@ all below between 1 and 5:
 *SetA:
 Agitated (level of agitation when ignored)
 Attenseek (attention)
-Bark (barking tendency (assuming comparatively to other dogs))
+Bark (barking tendency)
 Excite (excitement)
 Fetch (how well does the dog fetch)
 HO_Fear (Human and Object Fear)

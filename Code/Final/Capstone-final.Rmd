@@ -1,23 +1,28 @@
 ---
 title: "Capstone final"
-author: "HarrySecor"
-date: "11/19/2022"
+author: "Harry Secor"
+date: "12/14/2022"
 output: html_document
 ---
 
-# Natue vs Nurture
+# Introduction
+
+The data set that I am working with came from a paper from Joanna Ilska, et al. that asks how does a dogs traits effects its personality. The data is from a 102 question questionnaire from another paper by Sarah E.Lofgren, et al. that asks questions about dog behavior and generates a number between 1-5 for  each behavioral trait. The data consist of 1975 such responses by owners of Labrador retriever owners who's dogs are registered at the UK kennel club. There are 7 predictor variables coat color, gender status, age, job, housing, exercise, and health. all the predictor variables are categorical except age and they range between 1-2 to 1-4. There are also two sets of response variables, each response being a number from 1-5,, with set A being Agitated (level of agitation when ignored), Attenseek (attention), Bark (barking tendency), Excite (excitement), Fetch (how well does the dog fetch), HO_Fear (Human and Object Fear), NoiseF (Noise Fear), NO_Agg (Non-owner-directed Aggression), O_Agg (Owner-directed Aggression), SepAnx (Separation Anxiety), Train (trainability), UnBeh (Unusual Behavior). Set B I did not find the meaning of and also did not use. The reason I chose this data set is because I though it would be fun to work with dogs and nature vs nurture is always fascinating 
+
+
+
+# Analysis 
 the data is from a study in whether a dogs genetics has an impact on its behavior or if it is more based on the actions of the dogs owners. For the tested behavioral traits the more important factor is how the dogs were nurtured.
 
-```{r}
+```{r, include=FALSE}
 rm(list = ls())
 library(tidyverse)
 library(here)
 library(ggfortify)
 ```
 
-bring in the data and name it DOG for fun
 
-```{r}
+```{r, include=FALSE}
 DOG <- read.csv(here("Data", "Secor-Cap-Dap-data.csv"))
 ```
 
@@ -33,10 +38,10 @@ I used summary to look at the data and see the ranges of each of the categories 
 summary(DOG)
 ```
 
-# Job vs Excitability
+### Job vs Excitability
 the first two categories I want to look at are job (WM2) and excitement (Excite) to see whether training effects excitement level. WM2 is categorical with 0 = Gundog (n = 840), 1 = Pet (n = 817), and 2 = Showdog (n = 140). The paper by Joanna Ilska, et al. does not say what exactly excitement is, it is just a measurement on how excitable the dog is. Excitability is on a scale of 1 to 5 based off off six questions on a quiz by Sarah E.Lofgren et al.
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(DOG, aes(x = Excite)) + geom_histogram()
 ```
 
@@ -45,7 +50,7 @@ the histogram looks to be a normal distribution
 histograms where x = Excite and facet_wrap job
 I did a little extra for this first one to look at separate histograms to look at the spread for each job.
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 ggplot(data = na.omit(DOG), aes(x = Excite)) + geom_histogram() + facet_wrap(~WM2)
 ```
 
@@ -53,7 +58,7 @@ there might be a slight right skew for the gundogs and it is hard to tell for th
 
 box plot of x = WM2 and y = Excite
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 DOG$WM2 <- as.factor(DOG$WM2)
 ggplot(data = na.omit(DOG), aes(y = Excite, x = WM2)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
@@ -62,7 +67,7 @@ From the above plots pets seem to be much more excitable than either gundogs or 
 
 autoplot and summary of linear model with y = Excite
 
-```{r}
+```{r, echo=FALSE}
 jvelm <- lm(Excite ~ WM2, data = na.omit(DOG))
 autoplot(jvelm)
 summary(jvelm)
@@ -71,14 +76,14 @@ The residual fitted looks very good as the blue line matches the grey dotted lin
 
 There is a significant differences between all three jobs with the biggest difference between gundog and pet and with p = 2e-16. There is a closer but still statistically significant difference between pet and show dog. We fail to reject the hypothesis that a dogs job effects its excitability. Teaching dogs different jobs does seem have an impact on how they act. 
 
-# Coat color vs Excitability
+### Coat color vs Excitability
 
 This is a very similar test to the last one because job was a more nurture variable whereas coat color is a genetic variable.
 There are three coat colors, 0 = black (n = 1144), 1 = yellow (n = 521), and 2 = chocolate (n = 310).
 
 box plot of x = Coat_colour and y = Excite
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 DOG$Coat_colour <- as.factor(DOG$Coat_colour)
 ggplot(data = na.omit(DOG), aes(y = Excite, x = Coat_colour)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
@@ -87,7 +92,7 @@ We think that it is unlikely there is a significant differences between any of t
 
 autoplot and summary of linear model with x = Coat_colour and y = Excite
 
-```{r}
+```{r, echo=FALSE}
 ccvelm <- lm(Excite ~ Coat_colour, data = na.omit(DOG))
 autoplot(ccvelm)
 summary(ccvelm)
@@ -96,20 +101,20 @@ The residual fitted looks very good as the blue line matches the grey dotted lin
 
 Between black labs and yellow labs there is not a significant difference in level of excitability p = 0.512 but between black labs and chocolate labs there is a significant differences in level of excitability. We have to fail to reject the hypothesis that coat color does effect excitability in labs. We were not expecting that coat color could change how excitable dogs can be. It would likely be good to check the results of this because chocolate labs were the smallest group to see if there was another variable influencing the data.
 
-# Age vs Excite
+### Age vs Excite
 
 compare age to the excitement level to see what other factors could effect Excitability as a dog ages it likely gets less excited.
 
 dot plot of x = Age and y = Excite
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(DOG, aes(y = Excite, x = Age)) + geom_point() + xlab("Age (Days)")
 ```
 There is no clear pattern in the dots though after 2000 days there are only two dogs are 5 so that could be something. Seemingly most dogs are at 3 for excitability but it is hard to tell with the density off dots. Dogs get less excitable as they age.
 
 autoplot of linear model with x = Age and y = Excite
 
-```{r}
+```{r, echo=FALSE}
 avelm <- lm(Excite ~ Age, data = DOG)
 autoplot(avelm)
 ```
@@ -119,20 +124,20 @@ the residual vs leverage plot also veering off below the grey line after about 0
 
 Anova test and summary of linear model with x = Age and y = Excite
 
-```{r}
+```{r, echo=FALSE}
 anova(avelm)
 summary(avelm) # Starts at Call:
 ```
 
 There is no significant difference between the age of a do and its level of excitability (p = 0.0977). We reject the hypothesis that age effects level of excitability in dogs. There are some issues with this result as the autoplot had issues with several of the plots and the R^2 is very small (R-squared = 0.001399). 
 
-# Health vs Excitability
+### Health vs Excitability
 
 Is there was another variable that could effect how excitable a dog is like health of a do to see if illness or injury made the dog less excitable. 0 = some health issues (n = 1697) and 1 = no heath issues (n = 278)
 
 box plot of x = Health and y = Excite
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 DOG$Health <- as.factor(DOG$Health)
 ggplot(DOG, aes(x = Health, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
@@ -141,20 +146,20 @@ There will be no significant change in excitement level mainly because level of 
 
 t.test with x = Health and y = Excite
 
-```{r}
+```{r, echo=FALSE}
 t.test(Excite ~ Health, data = DOG)
 ```
 
 There is no significant difference between some heath issues and no health issues when it comes to the level of excitement of Labrador retrievers p = 0.2265. We reject the hypothesis. This is no real surprise as health problems vs no health problems is rather vague and because this comes from a survey it is hard to compare scale of injury.
 
-# Gender status vs Excitability
+### Gender status vs Excitability
 
 these last few are just for fun and to look at all the predictor variables so I wont go in deep.
 0 (n = 451), 1 (n  = 59), 2 (n = 1028), 3 (n = 426) 
 
 box plot of x = Gender_status and y = Excite
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 DOG$Gender_status <- as.factor(DOG$Gender_status)
 ggplot(data = na.omit(DOG), aes(y = Excite, x = Gender_status)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
@@ -163,7 +168,7 @@ there does not seem to be any major differences between gender status with most 
 
 autoplot of linear model with x = Gender_status and y = Excite
 
-```{r}
+```{r, echo=FALSE}
 gsvelm <- lm(Excite ~ Gender_status, data = na.omit(DOG))
 autoplot(gsvelm)
 summary(gsvelm)
@@ -173,13 +178,13 @@ the autoplot looks good though there is a slight downward turn in both residual 
 
 we reject the hypothesis as there is no significant difference between any of the values. with the closes to a significant value being p = 0.0617. The R-squared value is quite small at 0.003415.
 
-# Fixed vs Excitability
+### Fixed vs Excitability
 
 has the dog been Fixed. did the math near the top of the file to separate out the fixed and non-fixed dogs from Gender_status
 
 box plot of x = Fixed and y = Excite
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 DOG$Fixed <- as.factor(DOG$Fixed)
 ggplot(data = na.omit(DOG), aes(x = Fixed, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
@@ -188,20 +193,20 @@ there does not seem to be a difference between fixed and non-fixed dogs when it 
 
 t.test with x = Fixed and y = Excite
 
-```{r}
+```{r, echo=FALSE}
 t.test(Excite ~ Fixed, data = DOG)
 ```
 
 we reject the hypnosis that whether a dog is fixed or not effects its level of excitability with a p-value = 0.4494. it is very far from being significant.
 
-# InOut  vs Excitability
+### InOut  vs Excitability
 
 does where the dog live effect the level of excitability
 most of the dogs were indoor (n = 1578), indoor/outdoor (n = 170), outdoor (n = 176)
 
 box plot of x = InOut and y = Excite
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 DOG$InOut <- as.factor(DOG$InOut)
 ggplot(data = na.omit(DOG), aes(x = InOut, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
@@ -210,7 +215,7 @@ there does not seem to be a major difference, maybe indoor dogs are slightly mor
 
 autoplot of linear model with x = Fixed and y = Excite
 
-```{r}
+```{r, echo=FALSE}
 iovelm <- lm(Excite ~ InOut, data = na.omit(DOG))
 autoplot(iovelm)
 summary(iovelm)
@@ -220,21 +225,20 @@ the autoplot seems fine with seemingly little issues or deviations off of the gr
 
 there is a significant difference between indoor dogs and indoor/outdoor dogs with a p-value = 0.000142 but there is no significant difference between indoor and outdoor dogs p-value = 00.060542. we reject the hypothesis that housing effects level of excitability due to the outdoor vs indoor comparison. Is there a difference in the job of indoor/outdoor dogs vs outdoor/are owners of gundogs more likely to leave their dogs outside? this was a very unexpected result to even have a significant value.
 
-# Time exercising vs Excitability
+### Time exercising vs Excitability
 
 does the amount of hours exercising effect the excitability of dogs?
 
 box plot of x = TimeEx and y = Excite
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 DOG$TimeEx <- as.factor(DOG$TimeEx)
 ggplot(data = na.omit(DOG), aes(x = TimeEx, y = Excite)) + geom_boxplot() + geom_point(size = 4, color = 'lightgrey', alpha = 0.5)
 ```
 
 there seems to be a negative correlation between exercise and excitability. How much a dog exercises effects its level of excitability. 
 
-
-```{r}
+```{r, echo=FALSE}
 tevelm <- lm(Excite ~ TimeEx, data = na.omit(DOG))
 autoplot(tevelm)
 summary(tevelm)
@@ -243,4 +247,13 @@ summary(tevelm)
 the autoplot looks very good with no real issues that can be seen or that are majorly different in terms of Normal Q-Q.
 
 there is no significant difference between 1 and 2 hours (p-value = 0.17879) but there are significant differences between 1 and 3 (p-value = 0.00169) and 1 and 4 hours (p-value = 6.49e-06). We reject the hypothesis that there is a difference between amount of time exercising and excitability due to the p-value between 1 and 2 hrs. It seems as dogs exercise they get tired out and less excitable but that can not be  confirmed with this test but is an interesting result.
+
+
+# Biological Summary
+
+looking only at a Labrador retrievers excitability and comparing it to all seven predictor variables we found that only job had a significant impact on excitability. Although a few other of the predictors did have significant values for part of the tests there were also parts of the same predictor that were not significant so we could not confirm the hypotheses but under different tests or hypotheses they could show differences. For the paper that we got the data from, Joanna Ilska, et al., they also found role/job to be statistically significant but they also found exercise and housing to be significant. From the data analysis there is no clear impact of a dogs nature but there is evidence that how a dog is nurtured, at least in the way of its jo, will effect its excitability.
+
+# Challenges 
+
+The main challenges for me were to figure out what how to manipulate the data that I am using because there is only 1 set of data that is not between 1-5 in  this data set, this made it difficult to figure out what test to use as a lot of data was semi-continuous but based off a questionnaire. It was interesting to learn how difficult questionnaires can be to manipulate data from because they are used extensively outside of biology, and often in biology, to get data. One problem that I had was that I initially was confused about what test I should be using and there is still some evidence of that in my data analysis. Something cool that I did was use the mod function to separate out whether a dog had been fixed or not from gender status, though I am not sure if I could get actual gender out of the data. Overall I learned that playing with data is fun but it can be time consuming and the data might be hard to understand and manipulate. 
 
