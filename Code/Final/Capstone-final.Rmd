@@ -2,7 +2,9 @@
 title: "Capstone final"
 author: "Harry Secor"
 date: "12/14/2022"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 # Introduction
@@ -251,7 +253,7 @@ there is no significant difference between 1 and 2 hours (p-value = 0.17879) but
 
 # Biological Summary
 
-looking only at a Labrador retrievers excitability and comparing it to all seven predictor variables we found that only job had a significant impact on excitability. Although a few other of the predictors did have significant values for part of the tests there were also parts of the same predictor that were not significant so we could not confirm the hypotheses but under different tests or hypotheses they could show differences. For the paper that we got the data from, Joanna Ilska, et al., they also found role/job to be statistically significant but they also found exercise and housing to be significant. From the data analysis there is no clear impact of a dogs nature but there is evidence that how a dog is nurtured, at least in the way of its jo, will effect its excitability.
+looking only at a Labrador retrievers excitability and comparing it to all seven predictor variables we found that only job had a significant impact on excitability. Although a few other of the predictors did have significant values for part of the tests there were also parts of the same predictor that were not significant so we could not confirm the hypotheses but under different tests or hypotheses they could show differences. For the paper that we got the data from, Joanna Ilska, et al., they also found role/job to be statistically significant but they also found exercise and housing to be significant. From the data analysis there is no clear impact of a dogs nature but there is evidence that how a dog is nurtured, at least in the way of its job, will effect its excitability.
 
 # Challenges 
 
